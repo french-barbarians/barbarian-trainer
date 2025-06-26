@@ -27,6 +27,23 @@ This project was scaffolded with `iapp init`.
 - [dockerhub](https://hub.docker.com/) account
 - ethereum wallet
 
+## generate config
+
+Generate config from credentials are stored in `.env`
+
+```sh
+# install deps
+npm ci
+# copy env template
+cp .env.template .env
+# fill in the .env file
+echo "please fill in the .env file"
+```
+
+```sh
+npm run confgen
+```
+
 ### `iapp` main commands
 
 - [`iapp init`](#develop)
