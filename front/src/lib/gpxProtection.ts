@@ -1,4 +1,4 @@
-import { IExecDataProtectorCore } from '@iexec/dataprotector';
+import { DataSchema, IExecDataProtectorCore } from "@iexec/dataprotector";
 
 export interface DualGPXProtectionOptions {
   name?: string;
@@ -9,7 +9,7 @@ export interface DualGPXProtectionResult {
   address: string;
   name: string;
   owner: string;
-  schema: any;
+  schema: DataSchema;
   transactionHash?: string;
   creationTimestamp: number;
   multiaddr?: string;
@@ -33,7 +33,6 @@ export async function protectDualGPXFiles(
   gpx2File: File,
   options: DualGPXProtectionOptions = {}
 ): Promise<DualGPXProtectionResult> {
-  
   // Helper function to read file as ArrayBuffer
   const readFileAsArrayBuffer = (file: File): Promise<ArrayBuffer> => {
     return new Promise((resolve, reject) => {
@@ -41,32 +40,37 @@ export async function protectDualGPXFiles(
       reader.onload = (e) => {
         const result = e.target?.result as ArrayBuffer;
         if (!result) {
-          reject(new Error('Failed to read file content'));
+          reject(new Error("Failed to read file content"));
           return;
         }
         resolve(result);
       };
-      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.onerror = () => reject(new Error("Failed to read file"));
       reader.readAsArrayBuffer(file);
     });
   };
 
   // Validate files
-  if (!gpx1File.name.toLowerCase().endsWith('.gpx')) {
-    throw new Error('GPX1 file must have .gpx extension');
+  if (!gpx1File.name.toLowerCase().endsWith(".gpx")) {
+    throw new Error("GPX1 file must have .gpx extension");
   }
-  if (!gpx2File.name.toLowerCase().endsWith('.gpx')) {
-    throw new Error('GPX2 file must have .gpx extension');
+  if (!gpx2File.name.toLowerCase().endsWith(".gpx")) {
+    throw new Error("GPX2 file must have .gpx extension");
   }
 
-  const gpx1FileName = gpx1File.name.replace('.gpx', '');
-  const gpx2FileName = gpx2File.name.replace('.gpx', '');
-  const protectionName = options.name || `DualGPX-${gpx1FileName}-${gpx2FileName}-${Date.now()}`;
+  const gpx1FileName = gpx1File.name.replace(".gpx", "");
+  const gpx2FileName = gpx2File.name.replace(".gpx", "");
+  const protectionName =
+    options.name || `DualGPX-${gpx1FileName}-${gpx2FileName}-${Date.now()}`;
 
   if (options.verbose) {
     console.log(`📍 Protecting dual GPX files:`);
-    console.log(`   GPX1: ${gpx1File.name} (${(gpx1File.size / 1024).toFixed(2)} KB)`);
-    console.log(`   GPX2: ${gpx2File.name} (${(gpx2File.size / 1024).toFixed(2)} KB)`);
+    console.log(
+      `   GPX1: ${gpx1File.name} (${(gpx1File.size / 1024).toFixed(2)} KB)`
+    );
+    console.log(
+      `   GPX2: ${gpx2File.name} (${(gpx2File.size / 1024).toFixed(2)} KB)`
+    );
     console.log(`📝 Protection name: ${protectionName}`);
   }
 
@@ -81,13 +85,13 @@ export async function protectDualGPXFiles(
   // Protect the data with both files in a single dataset
   const protectedData = await dataProtectorCore.protectData({
     name: protectionName,
-    data: { 
+    data: {
       gpx1: gpx1Buffer,
-      gpx2: gpx2Buffer
+      gpx2: gpx2Buffer,
     },
     onStatusUpdate: ({ title, isDone }) => {
       if (options.verbose) {
-        console.log(`${title} ${isDone ? '✅' : '⏳'}`);
+        console.log(`${title} ${isDone ? "✅" : "⏳"}`);
       }
     },
   });
@@ -98,12 +102,12 @@ export async function protectDualGPXFiles(
     creationTimestamp: Date.now(),
     gpx1Info: {
       fileName: gpx1FileName,
-      size: gpx1File.size
+      size: gpx1File.size,
     },
     gpx2Info: {
       fileName: gpx2FileName,
-      size: gpx2File.size
-    }
+      size: gpx2File.size,
+    },
   };
 }
 
@@ -121,21 +125,21 @@ export async function protectGPXFile(
       reader.onload = (e) => {
         const result = e.target?.result as ArrayBuffer;
         if (!result) {
-          reject(new Error('Failed to read file content'));
+          reject(new Error("Failed to read file content"));
           return;
         }
         resolve(result);
       };
-      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.onerror = () => reject(new Error("Failed to read file"));
       reader.readAsArrayBuffer(file);
     });
   };
 
-  if (!gpxFile.name.toLowerCase().endsWith('.gpx')) {
-    throw new Error('File must have .gpx extension');
+  if (!gpxFile.name.toLowerCase().endsWith(".gpx")) {
+    throw new Error("File must have .gpx extension");
   }
 
-  const fileName = gpxFile.name.replace('.gpx', '');
+  const fileName = gpxFile.name.replace(".gpx", "");
   const protectionName = options.name || `GPX-${fileName}-${Date.now()}`;
 
   const gpxBuffer = await readFileAsArrayBuffer(gpxFile);
@@ -143,11 +147,11 @@ export async function protectGPXFile(
   const protectedData = await dataProtectorCore.protectData({
     name: protectionName,
     data: {
-      gpx: gpxBuffer
+      gpx: gpxBuffer,
     },
     onStatusUpdate: ({ title, isDone }) => {
       if (options.verbose) {
-        console.log(`${title} ${isDone ? '✅' : '⏳'}`);
+        console.log(`${title} ${isDone ? "✅" : "⏳"}`);
       }
     },
   });
@@ -157,7 +161,7 @@ export async function protectGPXFile(
     creationTimestamp: Date.now(),
     gpxInfo: {
       fileName,
-      size: gpxFile.size
-    }
+      size: gpxFile.size,
+    },
   };
 }

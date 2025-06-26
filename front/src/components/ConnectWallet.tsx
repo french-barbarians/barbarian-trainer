@@ -4,7 +4,6 @@ import { useAppKit } from "@reown/appkit/react";
 import { useAccount, useDisconnect } from "wagmi";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import Image from "next/image";
 
 export default function ConnectWallet() {
@@ -27,7 +26,7 @@ export default function ConnectWallet() {
 
   // Redirect to next screen when wallet is connected
   const handleContinue = () => {
-    router.push('/create-profile');
+    router.push("/create-profile");
   };
 
   return (
@@ -70,7 +69,7 @@ export default function ConnectWallet() {
             <div className="text-green-400 text-lg font-semibold mb-6">
               ✓ Wallet Connected Successfully
             </div>
-            
+
             {/* Continue Button */}
             <Button
               onClick={handleContinue}
@@ -79,11 +78,11 @@ export default function ConnectWallet() {
             >
               Continue to Create Profile
             </Button>
-            
+
             {/* Disconnect Button */}
             <Button
               onClick={handleDisconnect}
-            //   variant="outline"
+              //   variant="outline"
               className="w-full py-4 text-lg font-semibold bg-white text-[#0F0641] hover:bg-gray-100 mb-4"
               size="lg"
             >

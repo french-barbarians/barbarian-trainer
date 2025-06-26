@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { IExecDataProtectorCore } from "@iexec/dataprotector";
+import { GrantedAccess, IExecDataProtectorCore } from "@iexec/dataprotector";
 import { Key, Users, CheckCircle, AlertCircle } from "lucide-react";
 
 interface GrantAccessProps {
   authorizedApp: string;
   dataProtectorCore: IExecDataProtectorCore | null;
   protectedDataAddress: string;
-  onAccessGranted: (grantedAccess: any) => void;
+  onAccessGranted: (grantedAccess: GrantedAccess) => void;
 }
 
 export default function GrantAccess({
@@ -24,7 +24,9 @@ export default function GrantAccess({
   ); // Default to zero address (all users)
   const [isGranting, setIsGranting] = useState(false);
   const [grantStatus, setGrantStatus] = useState<string>("");
-  const [grantedAccess, setGrantedAccess] = useState<any>(null);
+  const [grantedAccess, setGrantedAccess] = useState<GrantedAccess | null>(
+    null
+  );
 
   const handleGrantAccess = async () => {
     if (!dataProtectorCore) {
@@ -213,20 +215,12 @@ export default function GrantAccess({
           <div className="space-y-2 text-sm">
             <div>
               <span className="font-medium text-green-800">
-                Transaction Hash:
+                Granted Access:
               </span>
               <p className="font-mono text-green-700 break-all">
-                {grantedAccess.txHash || "N/A"}
+                {grantedAccess.sign || "N/A"}
               </p>
             </div>
-            {grantedAccess.permissions && (
-              <div>
-                <span className="font-medium text-green-800">Permissions:</span>
-                <pre className="font-mono text-green-700 text-xs bg-green-100 p-2 rounded mt-1 overflow-auto">
-                  {JSON.stringify(grantedAccess.permissions, null, 2)}
-                </pre>
-              </div>
-            )}
           </div>
         </div>
       )}

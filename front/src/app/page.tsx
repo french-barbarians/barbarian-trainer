@@ -6,6 +6,7 @@ import { useAccount, useDisconnect } from "wagmi";
 import { useAppKit } from "@reown/appkit/react";
 import { Button } from "@/components/ui/button";
 import {
+  GrantedAccess,
   IExecDataProtector,
   IExecDataProtectorCore,
 } from "@iexec/dataprotector";
@@ -27,7 +28,9 @@ export default function Home() {
 
   const [gpxProtectedData, setGpxProtectedData] =
     useState<DualGPXProtectionResult>();
-  const [grantedAccess, setGrantedAccess] = useState<any>(null);
+  const [grantedAccess, setGrantedAccess] = useState<GrantedAccess | null>(
+    null
+  );
 
   const login = () => {
     open({ view: "Connect" });
