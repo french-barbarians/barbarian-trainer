@@ -65,14 +65,16 @@ export default function Coach({
 
   if (!agentUrl && !isStarting) {
     return (
-      <Button
-        disabled={isStarting}
-        onClick={() => {
-          startCoachingSession();
-        }}
-      >
-        Commencer votre session de coaching
-      </Button>
+      <div className="space-y-6 p-6 bg-white rounded-lg border border-gray-200">
+        <Button
+          disabled={isStarting}
+          onClick={() => {
+            startCoachingSession();
+          }}
+        >
+          Commencer votre session de coaching
+        </Button>
+      </div>
     );
   }
 
@@ -110,8 +112,8 @@ export default function Coach({
   };
 
   return (
-    <div>
-      <div>
+    <div className="space-y-6 p-6 bg-white rounded-lg border border-gray-200">
+      <div className="space-y-6 p-6">
         {messagesHistory.map(({ role, content }, i) => (
           <Card key={i}>
             <CardHeader>
@@ -128,30 +130,32 @@ export default function Coach({
           </Card>
         ))}
       </div>
-      <Input
-        type="text"
-        disabled={!isReady || !agentUrl}
-        value={prompt}
-        onChange={(e) => {
-          e.preventDefault();
-          setPrompt(e.target.value);
-        }}
-        placeholder={
-          isReady && agentUrl
-            ? "Ecrivez votre message"
-            : "Nous attendons votre coach"
-        }
-      ></Input>
-      <Button
-        className="a"
-        disabled={!isReady || !agentUrl}
-        onClick={(e) => {
-          e.preventDefault();
-          postMessage();
-        }}
-      >
-        Envoyer
-      </Button>
+      <div className="space-y-6 p-6">
+        <Input
+          type="text"
+          disabled={!isReady || !agentUrl}
+          value={prompt}
+          onChange={(e) => {
+            e.preventDefault();
+            setPrompt(e.target.value);
+          }}
+          placeholder={
+            isReady && agentUrl
+              ? "Ecrivez votre message"
+              : "Nous attendons votre coach"
+          }
+        ></Input>
+        <Button
+          className="a"
+          disabled={!isReady || !agentUrl}
+          onClick={(e) => {
+            e.preventDefault();
+            postMessage();
+          }}
+        >
+          Envoyer
+        </Button>
+      </div>
     </div>
   );
 }
