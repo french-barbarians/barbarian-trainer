@@ -4,8 +4,13 @@ export const waitForTunnel = async (gossipAddress: string): Promise<string> => {
   const provider = new WebSocketProvider("wss://bellecour.iex.ec");
 
   return new Promise((resolve, reject) => {
-    const cleanup = () => provider.removeAllListeners(["block", "error"]);
-    provider.on("error", () => {
+    const cleanup = () => {
+      provider.removeAllListeners("block");
+      provider.removeAllListeners("error");
+      provider.websocket.close();
+    };
+    provider.on("error", (e) => {
+      console.log("err", e);
       cleanup();
       reject(Error("Fail to get https tunnel URL"));
     });
@@ -24,8 +29,7 @@ export const waitForTunnel = async (gossipAddress: string): Promise<string> => {
               const { url } = JSON.parse(utf8Data);
               cleanup();
               resolve(url);
-            } catch (e) {
-              console.error(e);
+            } catch {
               // noop
             }
           }
@@ -35,7 +39,7 @@ export const waitForTunnel = async (gossipAddress: string): Promise<string> => {
   });
 };
 
-// test
+// uncomment and test with `npx tsx waitForTunnel.ts`
 // (async () => {
 //   console.log(
 //     await waitForTunnel("0xCA302f663d7E4F9D4eFD6B57A0586c9c39ED0033")
