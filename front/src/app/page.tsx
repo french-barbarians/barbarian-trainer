@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useAccount, useDisconnect } from "wagmi";
 import { useAppKit } from "@reown/appkit/react";
 import { Button } from "@/components/ui/button";
@@ -65,15 +66,23 @@ export default function Home() {
           <div className="ml-3 font-mono leading-5 font-bold">
             Barbarian Trainer - GPX Protection
           </div>
-          {!isConnected ? (
-            <Button onClick={login} variant={"default"}>
-              Connect my wallet
-            </Button>
-          ) : (
-            <Button onClick={logout} variant={"default"}>
-              Logout
-            </Button>
-          )}
+          <div className="flex items-center space-x-4">
+            <Link href="/onboarding">
+              <Button variant={"default"}>Onboarding</Button>
+            </Link>
+            <Link href="/connect-wallet">
+              <Button variant={"outline"}>Connect Wallet</Button>
+            </Link>
+            {!isConnected ? (
+              <Button onClick={login} variant={"default"}>
+                Connect my wallet
+              </Button>
+            ) : (
+              <Button onClick={logout} variant={"default"}>
+                Logout
+              </Button>
+            )}
+          </div>
         </div>
       </nav>
       <section className="p-4 pt-8">
