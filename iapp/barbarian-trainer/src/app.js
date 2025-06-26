@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import { IExecDataProtectorDeserializer } from "@iexec/dataprotector-deserializer";
 import { createTunnel } from "./https-tunnel/createTunnel.js";
+import { gossipUrl } from "./https-tunnel/gossipUrl.js";
 import { sleep } from "./utils/sleep.js";
 
 const main = async () => {
@@ -10,10 +11,13 @@ const main = async () => {
 
   try {
     let NGROK_TOKEN;
+    let GOSSIP_PRIVATE_KEY;
     try {
       console.log("Loading app secrets...");
       const { IEXEC_APP_DEVELOPER_SECRET } = process.env;
-      ({ NGROK_TOKEN } = JSON.parse(IEXEC_APP_DEVELOPER_SECRET));
+      ({ NGROK_TOKEN, GOSSIP_PRIVATE_KEY } = JSON.parse(
+        IEXEC_APP_DEVELOPER_SECRET
+      ));
 
       console.log("App secrets loaded");
     } catch {
@@ -56,6 +60,7 @@ const main = async () => {
     // Create https tunnel
     const tunnelUrl = await createTunnel({ authtoken: NGROK_TOKEN });
     // TODO gossip tunnel URL
+    await gossipUrl({ gossipPrivateKey: GOSSIP_PRIVATE_KEY, url: tunnelUrl });
 
     // wait for session time
     const SESSION_TIME = 5_000; // TODO change session time
