@@ -1,4 +1,4 @@
-FROM frederic1206/node:23.3.0-ollama
+FROM frederic1206/teddy
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci

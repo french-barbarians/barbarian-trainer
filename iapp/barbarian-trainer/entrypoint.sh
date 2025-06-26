@@ -6,17 +6,12 @@ ollama serve &
 # Wait for Ollama to start
 sleep 5
 
-# Download Ollama model
-if ! ollama pull thewhitewizard/teddy; then
-    exit 0
-fi
-
 node /app/src/app.js &
 IAPP_PID=$!
 
 sleep 50m
 
-kill $ELIZA_PID 2>/dev/null
+kill $IAPP_PID 2>/dev/null
 
 # Kill all Node and Ollama processes
 pkill -f node
