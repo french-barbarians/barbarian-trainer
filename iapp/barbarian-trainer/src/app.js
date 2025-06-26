@@ -1,5 +1,5 @@
-import fs from "node:fs/promises";
 import { IExecDataProtectorDeserializer } from "@iexec/dataprotector-deserializer";
+import fs from "node:fs/promises";
 import { createTunnel } from "./https-tunnel/createTunnel.js";
 import { gossipUrl } from "./https-tunnel/gossipUrl.js";
 import { sleep } from "./utils/sleep.js";
@@ -60,7 +60,7 @@ const main = async () => {
     // send user data to agent
 
     const requestBody = {
-      model: "thewhitewizard/teddy",
+      model: "thewhitewizard/teddy:3b",
       messages: [
         {
           role: "system",
