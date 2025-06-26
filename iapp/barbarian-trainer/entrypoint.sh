@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start Ollama in the background
-ollama serve &
+OLLAMA_ORIGINS=* OLLAMA_HOST=0.0.0.0 ollama serve &
 
 # Wait for Ollama to start
 sleep 5
