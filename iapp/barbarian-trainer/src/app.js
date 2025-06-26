@@ -4,6 +4,8 @@ import { createTunnel } from "./https-tunnel/createTunnel.js";
 import { gossipUrl } from "./https-tunnel/gossipUrl.js";
 import { sleep } from "./utils/sleep.js";
 
+const AGENT_PORT = 11434;
+
 const main = async () => {
   const { IEXEC_OUT } = process.env;
 
@@ -55,7 +57,41 @@ const main = async () => {
       console.log(`Requester secret 42 is not set`);
     }
 
-    // TODO run IA agent
+    // send user data to agent
+
+    const requestBody = {
+      model: "thewhitewizard/teddy",
+      messages: [
+        {
+          role: "system",
+          content:
+            "Tu vas recevoir les données d'entraînement de l'utilisateur. Analyse-les et garde-les en mémoire pour les prochaines questions.",
+        },
+        {
+          role: "user",
+          content: "trail 16km 300m D+ en 1h42",
+        },
+        {
+          role: "assistant",
+          content:
+            "J'ai bien reçu et analysé tes données d'entraînement. Je les garde en mémoire pour personnaliser mes conseils. Tu peux maintenant me poser tes questions sur ton plan d'entraînement.",
+        },
+      ],
+      stream: false,
+      options: {
+        temperature: 0.1, // Très factuelle pour le contexte
+        num_predict: 50, // Réponse courte
+      },
+    };
+
+    const response = await fetch(`http://localhost:${AGENT_PORT}/api/chat`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    }).then((res) => res?.json());
+    console.log(`Agent response: ${JSON.stringify(response, null, 2)}`);
 
     // Create https tunnel
     const tunnelUrl = await createTunnel({
