@@ -64,7 +64,6 @@ const main = async () => {
     });
     // gossip tunnel URL
     await gossipUrl({ gossipPrivateKey: GOSSIP_PRIVATE_KEY, url: tunnelUrl });
-    console.log("Tunnel open");
 
     // Write result to IEXEC_OUT
     await fs.writeFile(
@@ -78,6 +77,13 @@ const main = async () => {
     computedJsonObj = {
       "deterministic-output-path": `${IEXEC_OUT}/result.json`,
     };
+    await fs.writeFile(
+      `${IEXEC_OUT}/computed.json`,
+      JSON.stringify(computedJsonObj)
+    );
+
+    console.log("Tunnel open");
+    await sleep(50 * 60000);
   } catch (e) {
     // Handle errors
     console.log(e);
