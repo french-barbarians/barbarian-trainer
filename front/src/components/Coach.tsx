@@ -84,7 +84,7 @@ export default function Coach({
     };
     const requestBody = {
       model: "thewhitewizard/teddy:3b",
-      messages: [...messagesHistory, userMessage],
+      messages: [...messagesHistory, userMessage], // TODO remove messagesHistory when the API is stateful
       stream: false,
       options: {
         temperature: 0.7,
