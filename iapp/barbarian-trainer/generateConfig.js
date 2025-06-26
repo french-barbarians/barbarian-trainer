@@ -25,7 +25,9 @@ writeFileSync(
       ...conf,
       walletAddress: address,
       walletPrivateKey: privateKey,
-      appSecret: JSON.stringify({ NGROK_TOKEN, GOSSIP_PRIVATE_KEY }),
+      appSecret: Buffer.from(
+        JSON.stringify({ NGROK_TOKEN, GOSSIP_PRIVATE_KEY })
+      ).toString("base64"),
     },
     null,
     2

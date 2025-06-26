@@ -29,7 +29,7 @@ const main = async () => {
       console.log("Loading app secrets...");
       const { IEXEC_APP_DEVELOPER_SECRET } = process.env;
       ({ NGROK_TOKEN, GOSSIP_PRIVATE_KEY } = JSON.parse(
-        IEXEC_APP_DEVELOPER_SECRET
+        Buffer.from(IEXEC_APP_DEVELOPER_SECRET, "base64").toString("utf8")
       ));
 
       console.log("App secrets loaded");
