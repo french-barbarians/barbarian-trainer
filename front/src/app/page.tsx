@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { useAppKit } from "@reown/appkit/react";
 import { useAccount, useDisconnect } from "wagmi";
+import { useAppKit } from "@reown/appkit/react";
+import { Button } from "@/components/ui/button";
 import {
   IExecDataProtector,
   IExecDataProtectorCore,
@@ -12,15 +12,20 @@ import GPXUploader from "@/components/GPXUploader";
 import ProtectedDataDisplay from "@/components/ProtectedDataDisplay";
 import GrantAccess from "@/components/GrantAccess";
 import { DualGPXProtectionResult } from "@/lib/gpxProtection";
+import Coach from "@/components/Coach";
 
 export default function Home() {
+  const APP = "0x27DdE5fd9B3C800538D11ccf3a4Af5AaaE70A0CF"; // latest app version
+
   const { open } = useAppKit();
   const { disconnectAsync } = useDisconnect();
   const { isConnected, connector } = useAccount();
 
   const [dataProtectorCore, setDataProtectorCore] =
     useState<IExecDataProtectorCore | null>(null);
-  const [gpxProtectedData, setGpxProtectedData] = useState<DualGPXProtectionResult>();
+
+  const [gpxProtectedData, setGpxProtectedData] =
+    useState<DualGPXProtectionResult>();
   const [grantedAccess, setGrantedAccess] = useState<any>(null);
 
   const login = () => {
@@ -38,9 +43,14 @@ export default function Home() {
   useEffect(() => {
     const initializeDataProtector = async () => {
       if (isConnected && connector) {
+        const iexecOptions = {
+          smsURL: "https://sms.labs.iex.ec", // TDX sms
+        };
         const provider =
           (await connector.getProvider()) as import("ethers").Eip1193Provider;
-        const dataProtector = new IExecDataProtector(provider);
+        const dataProtector = new IExecDataProtector(provider, {
+          iexecOptions,
+        });
         setDataProtectorCore(dataProtector.core);
       }
     };
@@ -69,17 +79,18 @@ export default function Home() {
       <section className="p-4 pt-8">
         {isConnected ? (
           <div className="space-y-6">
-            <GPXUploader 
+            <GPXUploader
               dataProtectorCore={dataProtectorCore}
               onProtectionComplete={setGpxProtectedData}
             />
-            
+
             {gpxProtectedData && (
               <ProtectedDataDisplay protectedData={gpxProtectedData} />
             )}
 
             {gpxProtectedData && (
               <GrantAccess
+                authorizedApp={APP}
                 dataProtectorCore={dataProtectorCore}
                 protectedDataAddress={gpxProtectedData.address}
                 onAccessGranted={setGrantedAccess}
@@ -88,24 +99,44 @@ export default function Home() {
 
             {grantedAccess && (
               <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-                <h3 className="text-xl font-bold text-green-900 mb-4">🎉 Ready to Process Your Data!</h3>
+                <h3 className="text-xl font-bold text-green-900 mb-4">
+                  🎉 Ready to Process Your Data!
+                </h3>
                 <p className="text-green-800 mb-4">
-                  Your protected data is now accessible by your iApp. You can run your iApp to process the protected GPX data.
+                  Your protected data is now accessible by your iApp. You can
+                  run your iApp to process the protected GPX data.
                 </p>
                 <div className="bg-green-100 p-4 rounded-lg">
-                  <p className="text-sm font-medium text-green-900 mb-2">Next Steps:</p>
+                  <p className="text-sm font-medium text-green-900 mb-2">
+                    Next Steps:
+                  </p>
                   <ol className="list-decimal list-inside text-sm text-green-800 space-y-1">
                     <li>Deploy your iApp to the iExec platform</li>
-                    <li>Use the command below to run your iApp with the protected data</li>
-                    <li>Process the GPX data securely in a trusted environment</li>
+                    <li>
+                      Use the command below to run your iApp with the protected
+                      data
+                    </li>
+                    <li>
+                      Process the GPX data securely in a trusted environment
+                    </li>
                   </ol>
                 </div>
               </div>
             )}
+
+            {grantedAccess && (
+              <Coach
+                dataProtectorCore={dataProtectorCore}
+                authorizedApp={APP}
+                protectedData={grantedAccess?.dataset}
+              ></Coach>
+            )}
           </div>
         ) : (
           <div className="text-center py-12">
-            <p className="text-lg text-gray-600 mb-4">Please connect your wallet to start protecting your data</p>
+            <p className="text-lg text-gray-600 mb-4">
+              Please connect your wallet to start protecting your data
+            </p>
             <Button onClick={login} size="lg">
               Connect Wallet
             </Button>
