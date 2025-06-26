@@ -1,5 +1,11 @@
 [
   {
+    "sconifiedImage": "pierreiexec/barbarian-trainer:0.0.1-alpha.2-tdx-3f50790ec5de",
+    "appContractAddress": "0x27DdE5fd9B3C800538D11ccf3a4Af5AaaE70A0CF",
+    "owner": "0x891979E25c660e9aCd914BBAa8004BAcb662fD95",
+    "date": "2025-06-26T15:15:41.928Z"
+  },
+  {
     "sconifiedImage": "pierreiexec/barbarian-trainer:0.0.1-alpha.1-tdx-f2a1df65ca67",
     "appContractAddress": "0x751d5b3b34b6De18e488af5dA318aB9929322239",
     "owner": "0x891979E25c660e9aCd914BBAa8004BAcb662fD95",
