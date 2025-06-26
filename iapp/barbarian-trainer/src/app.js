@@ -18,7 +18,7 @@ import {
 const AGENT_PORT = 11434;
 
 const main = async () => {
-  const { IEXEC_OUT } = process.env;
+  const { IEXEC_OUT = "/iexec_out" } = process.env;
 
   let computedJsonObj = {};
 
