@@ -65,7 +65,8 @@ export default function Coach({
 
   if (!agentUrl && !isStarting) {
     return (
-      <div className="space-y-6 p-6 bg-white rounded-lg border border-gray-200">
+      <div className="space-y-6 p-6 bg-white rounded-lg border border-gray-200 text-center">
+        <div>Nous sommes prets!</div>
         <Button
           disabled={isStarting}
           onClick={() => {
@@ -113,24 +114,26 @@ export default function Coach({
 
   return (
     <div className="space-y-6 p-6 bg-white rounded-lg border border-gray-200">
-      <div className="space-y-6 p-6">
-        {messagesHistory.map(({ role, content }, i) => (
-          <Card key={i}>
-            <CardHeader>
-              <CardTitle>{role === "assistant" ? "Teddy" : "Vous"}</CardTitle>
-              <CardDescription>
-                {content.split("\n").map((line) => (
-                  <>
-                    {line}
-                    <br />
-                  </>
-                ))}
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        ))}
-      </div>
-      <div className="space-y-6 p-6">
+      {isReady && agentUrl && (
+        <div className="space-y-6 p-6">
+          {messagesHistory.map(({ role, content }, i) => (
+            <Card key={i}>
+              <CardHeader>
+                <CardTitle>{role === "assistant" ? "Teddy" : "Vous"}</CardTitle>
+                <CardDescription>
+                  {content.split("\n").map((line) => (
+                    <>
+                      {line}
+                      <br />
+                    </>
+                  ))}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
+      )}
+      <div className="space-y-6 p-6 text-right">
         <Input
           type="text"
           disabled={!isReady || !agentUrl}
