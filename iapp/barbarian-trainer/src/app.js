@@ -149,7 +149,9 @@ const main = async () => {
       console.log(`Requester secret 42 is not set`);
     }
 
-    // Prepare comprehensive LLM training data structure
+    // TODO: COMPREHENSIVE DATA PREPARATION FOR LATER USE
+    // Prepare comprehensive LLM training data structure (commented for first step)
+    /*
     const llmTrainingData = prepareLLMTrainingData(
       gpxData1, 
       gpxData2, 
@@ -192,8 +194,38 @@ const main = async () => {
     - Durée: ${llmChatContext.key_metrics.duration_minutes} minutes
 
     Analyse de 2 parcours distincts disponible pour conseils personnalisés.`;
+    */
 
-    // send user data to agent
+    // SIMPLIFIED VERSION FOR FIRST STEP: Only essential metrics
+    console.log("📊 Training session completed!");
+    console.log(`   📁 Files processed: 2`);
+    console.log(`   📏 Total Distance: ${(combinedGPXData.distance / 1000).toFixed(2)} km`);
+    console.log(`   ⛰️  Total Elevation Gain: ${combinedGPXData.elevationGain.toFixed(0)} m`);
+    
+    // Calculate simplified metrics for LLM
+    let combinedAvgSpeed = 0;
+    let combinedMovingTime = 0;
+    
+    if (advancedStats1 && advancedStats2 && (advancedStats1.avgSpeedKmh > 0 || advancedStats2.avgSpeedKmh > 0)) {
+      combinedAvgSpeed = (advancedStats1.avgSpeedKmh + advancedStats2.avgSpeedKmh) / 2;
+      combinedMovingTime = advancedStats1.movingTime + advancedStats2.movingTime;
+      
+      console.log(`   ⚡ Combined Avg Speed: ${combinedAvgSpeed.toFixed(1)} km/h`);
+      console.log(`   ⏱️  Total Training Duration: ${(combinedMovingTime / 60).toFixed(1)} minutes`);
+    }
+
+    // Get current date for training context
+    const currentDate = new Date().toLocaleDateString('fr-FR');
+    
+    // Simplified training content with only essential info
+    const userTrainingContent = `Date: ${currentDate}
+Distance: ${(combinedGPXData.distance / 1000).toFixed(1)} km
+Vitesse moyenne: ${combinedAvgSpeed.toFixed(1)} km/h
+Dénivelé: ${combinedGPXData.elevationGain.toFixed(0)} m`;
+
+    // send user data to agent - SIMPLIFIED VERSION
+    console.log("🤖 Sending simplified data to LLM...");
+    console.log(`   📝 Training data: ${userTrainingContent}`);
 
     const requestBody = {
       model: "thewhitewizard/teddy:3b",
