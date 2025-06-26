@@ -3,9 +3,12 @@ import { config } from "dotenv";
 import { Wallet } from "ethers";
 
 config();
-const { DEV_PRIVATE_KEY } = process.env;
+const { DEV_PRIVATE_KEY, NGROK_TOKEN } = process.env;
 if (!DEV_PRIVATE_KEY) {
   throw Error("Missing DEV_PRIVATE_KEY in .env");
+}
+if (!NGROK_TOKEN) {
+  throw Error("Missing NGROK_TOKEN in .env");
 }
 
 const { address, privateKey } = new Wallet(DEV_PRIVATE_KEY);
@@ -19,6 +22,7 @@ writeFileSync(
       ...conf,
       walletAddress: address,
       walletPrivateKey: privateKey,
+      appSecret: JSON.stringify({ NGROK_TOKEN }),
     },
     null,
     2

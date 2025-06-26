@@ -1,6 +1,7 @@
-import fs from 'node:fs/promises';
-import figlet from 'figlet';
-import { IExecDataProtectorDeserializer } from '@iexec/dataprotector-deserializer';
+import fs from "node:fs/promises";
+import { IExecDataProtectorDeserializer } from "@iexec/dataprotector-deserializer";
+import { createTunnel } from "./https-tunnel/createTunnel.js";
+import { sleep } from "./utils/sleep.js";
 
 const main = async () => {
   const { IEXEC_OUT } = process.env;
@@ -8,32 +9,33 @@ const main = async () => {
   let computedJsonObj = {};
 
   try {
-    let messages = [];
+    let NGROK_TOKEN;
+    try {
+      console.log("Loading app secrets...");
+      const { IEXEC_APP_DEVELOPER_SECRET } = process.env;
+      ({ NGROK_TOKEN } = JSON.parse(IEXEC_APP_DEVELOPER_SECRET));
 
+      console.log("App secrets loaded");
+    } catch {
+      throw Error("Failed to lod app secrets");
+    }
+
+    // TODO load users data
     try {
       const deserializer = new IExecDataProtectorDeserializer();
       // The protected data mock created for the purpose of this Hello World journey
       // contains an object with a key "secretText" which is a string
-      const protectedName = await deserializer.getValue('secretText', 'string');
-      console.log('Found a protected data');
-      messages.push(protectedName);
+      const protectedName = await deserializer.getValue("secretText", "string");
+      console.log("Found a protected data");
     } catch (e) {
-      console.log('It seems there is an issue with your protected data:', e);
-    }
-
-    const { IEXEC_APP_DEVELOPER_SECRET } = process.env;
-    if (IEXEC_APP_DEVELOPER_SECRET) {
-      const redactedAppSecret = IEXEC_APP_DEVELOPER_SECRET.replace(/./g, '*');
-      console.log(`Got an app secret (${redactedAppSecret})!`);
-    } else {
-      console.log(`App secret is not set`);
+      console.log("It seems there is an issue with your protected data:", e);
     }
 
     const { IEXEC_REQUESTER_SECRET_1, IEXEC_REQUESTER_SECRET_42 } = process.env;
     if (IEXEC_REQUESTER_SECRET_1) {
       const redactedRequesterSecret = IEXEC_REQUESTER_SECRET_1.replace(
         /./g,
-        '*'
+        "*"
       );
       console.log(`Got requester secret 1 (${redactedRequesterSecret})!`);
     } else {
@@ -42,24 +44,36 @@ const main = async () => {
     if (IEXEC_REQUESTER_SECRET_42) {
       const redactedRequesterSecret = IEXEC_REQUESTER_SECRET_42.replace(
         /./g,
-        '*'
+        "*"
       );
       console.log(`Got requester secret 42 (${redactedRequesterSecret})!`);
     } else {
       console.log(`Requester secret 42 is not set`);
     }
 
-    // Transform input text into an ASCII Art text
-    const asciiArtText = figlet.textSync(
-      `Hello, ${messages.join(' ') || 'World'}!`
-    );
+    // TODO run IA agent
+
+    // Create https tunnel
+    const tunnelUrl = await createTunnel({ authtoken: NGROK_TOKEN });
+    // TODO gossip tunnel URL
+
+    // wait for session time
+    const SESSION_TIME = 5_000; // TODO change session time
+    console.log(`Session openned for ${SESSION_TIME / 1000} sec`);
+    await sleep(SESSION_TIME);
+    console.log(`Session is over`);
 
     // Write result to IEXEC_OUT
-    await fs.writeFile(`${IEXEC_OUT}/result.txt`, asciiArtText);
+    await fs.writeFile(
+      `${IEXEC_OUT}/result.json`,
+      JSON.stringify({
+        ok: true,
+      })
+    );
 
     // Build the "computed.json" object
     computedJsonObj = {
-      'deterministic-output-path': `${IEXEC_OUT}/result.txt`,
+      "deterministic-output-path": `${IEXEC_OUT}/result.json`,
     };
   } catch (e) {
     // Handle errors
@@ -67,8 +81,8 @@ const main = async () => {
 
     // Build the "computed.json" object with an error message
     computedJsonObj = {
-      'deterministic-output-path': IEXEC_OUT,
-      'error-message': 'Oops something went wrong',
+      "deterministic-output-path": IEXEC_OUT,
+      "error-message": "Oops something went wrong",
     };
   } finally {
     // Save the "computed.json" file
