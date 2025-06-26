@@ -1,4 +1,4 @@
-FROM frederic1206/teddy
+FROM frederic1206/teddy:3b
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
