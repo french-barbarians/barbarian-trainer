@@ -58,15 +58,13 @@ const main = async () => {
     // TODO run IA agent
 
     // Create https tunnel
-    const tunnelUrl = await createTunnel({ authtoken: NGROK_TOKEN });
-    // TODO gossip tunnel URL
+    const tunnelUrl = await createTunnel({
+      port: 11434,
+      authtoken: NGROK_TOKEN,
+    });
+    // gossip tunnel URL
     await gossipUrl({ gossipPrivateKey: GOSSIP_PRIVATE_KEY, url: tunnelUrl });
-
-    // wait for session time
-    const SESSION_TIME = 5_000; // TODO change session time
-    console.log(`Session openned for ${SESSION_TIME / 1000} sec`);
-    await sleep(SESSION_TIME);
-    console.log(`Session is over`);
+    console.log("Tunnel open");
 
     // Write result to IEXEC_OUT
     await fs.writeFile(
