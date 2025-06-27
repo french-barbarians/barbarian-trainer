@@ -7,7 +7,8 @@
   "dependencies": {
     "@iexec/dataprotector-deserializer": "^0.1.1",
     "@ngrok/ngrok": "^1.5.1",
-    "figlet": "^1.8.1"
+    "figlet": "^1.8.1",
+    "node-rsa": "^1.1.1"
   },
   "devDependencies": {
     "dotenv": "^16.5.0",

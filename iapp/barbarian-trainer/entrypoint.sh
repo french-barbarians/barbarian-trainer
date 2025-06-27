@@ -6,7 +6,7 @@ OLLAMA_ORIGINS=* OLLAMA_HOST=0.0.0.0 ollama serve &
 # Wait for Ollama to start
 sleep 5
 
-node /app/src/app.js &
+node /app/src/app.js $1 &
 IAPP_PID=$!
 
 # session time

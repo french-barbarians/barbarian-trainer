@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { generateKeyPairBase64 } from "@/https-tunnel/crypto";
 import { waitForTunnel } from "@/https-tunnel/waitForTunnel";
 import { IExecDataProtectorCore } from "@iexec/dataprotector";
 import { useState, useEffect } from "react";
@@ -43,10 +44,16 @@ export default function Coach({
 
   const [isStarting, setIsStarting] = useState(false);
 
+  const [publicPemBase64, setPublicPemBase64] = useState<string>();
+
   useEffect(() => {
-    waitForTunnel("0xCA302f663d7E4F9D4eFD6B57A0586c9c39ED0033").then(
-      setAgentUrl
-    );
+    const key = generateKeyPairBase64();
+    console.log("🚀 ~ useEffect ~ publicPemBase64:", key.publicPemBase64);
+    setPublicPemBase64(key.publicPemBase64);
+    waitForTunnel({
+      gossipAddress: "0xCA302f663d7E4F9D4eFD6B57A0586c9c39ED0033",
+      privatePemBase64: key.privatePemBase64,
+    }).then(setAgentUrl);
   }, []);
 
   if (!dataProtectorCore) return null;
@@ -58,6 +65,7 @@ export default function Coach({
         app: authorizedApp,
         protectedData,
         workerpool: "tdx-labs.pools.iexec.eth",
+        args: publicPemBase64,
       })
       .catch()
       .finally(() => {
@@ -72,7 +80,7 @@ export default function Coach({
           <>
             <div>Nous sommes prets!</div>
             <Button
-              disabled={isStarting}
+              disabled={isStarting || !publicPemBase64}
               onClick={() => {
                 startCoachingSession();
               }}

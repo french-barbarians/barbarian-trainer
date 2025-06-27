@@ -1,6 +1,13 @@
 import { WebSocketProvider } from "ethers";
+import { decryptRsaFromHex } from "./crypto";
 
-export const waitForTunnel = async (gossipAddress: string): Promise<string> => {
+export const waitForTunnel = async ({
+  gossipAddress,
+  privatePemBase64,
+}: {
+  gossipAddress: string;
+  privatePemBase64: string;
+}): Promise<string> => {
   const provider = new WebSocketProvider("wss://bellecour.iex.ec");
 
   return new Promise((resolve, reject) => {
@@ -23,9 +30,10 @@ export const waitForTunnel = async (gossipAddress: string): Promise<string> => {
             tx?.to?.toLowerCase() === gossipAddress.toLowerCase()
           ) {
             try {
-              const utf8Data = Buffer.from(tx.data.slice(2), "hex").toString(
-                "utf8"
-              );
+              const utf8Data = decryptRsaFromHex({
+                encryptedHex: tx.data,
+                privatePemBase64,
+              });
               const { url } = JSON.parse(utf8Data);
               cleanup();
               resolve(url);
