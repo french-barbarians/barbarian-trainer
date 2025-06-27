@@ -48,7 +48,7 @@ The application consists of three main components:
 ### 2. AI Processing
 1. Grant access to the MyPrivateCoach iApp
 2. Your encrypted data is processed in a secure TEE
-3. AI model analyzes your training patterns
+3. AI model analyzes your training patterns and personal goals
 4. Personalized coaching advice is generated
 
 ### 3. Results
