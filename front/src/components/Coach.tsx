@@ -15,12 +15,14 @@ interface CoachProps {
   authorizedApp: string;
   dataProtectorCore: IExecDataProtectorCore | null;
   protectedData: string;
+  coachName: string;
 }
 
 export default function Coach({
   dataProtectorCore,
   authorizedApp,
   protectedData,
+  coachName,
 }: CoachProps) {
   const [agentUrl, setAgentUrl] = useState("");
   console.log("🚀 ~ Coach ~ agentUrl:", agentUrl);
@@ -63,18 +65,28 @@ export default function Coach({
       });
   };
 
-  if (!agentUrl && !isStarting) {
+  if (!agentUrl) {
     return (
       <div className="space-y-6 p-6 bg-white rounded-lg border border-gray-200 text-center">
-        <div>Nous sommes prets!</div>
-        <Button
-          disabled={isStarting}
-          onClick={() => {
-            startCoachingSession();
-          }}
-        >
-          Commencer votre session de coaching
-        </Button>
+        {!isStarting && (
+          <>
+            <div>Nous sommes prets!</div>
+            <Button
+              disabled={isStarting}
+              onClick={() => {
+                startCoachingSession();
+              }}
+            >
+              Commencer votre session de coaching
+            </Button>
+          </>
+        )}
+        {isStarting && (
+          <div>
+            <p>🏃 Votre coach arrive bientôt 🏃</p>
+            <p>Merci de patienter</p>
+          </div>
+        )}
       </div>
     );
   }
@@ -114,12 +126,15 @@ export default function Coach({
 
   return (
     <div className="space-y-6 p-6 bg-white rounded-lg border border-gray-200">
-      {isReady && agentUrl && (
+      {agentUrl && (
         <div className="space-y-6 p-6">
+          <p>Vous êtes en relation avec {coachName}</p>
           {messagesHistory.map(({ role, content }, i) => (
             <Card key={i}>
               <CardHeader>
-                <CardTitle>{role === "assistant" ? "Teddy" : "Vous"}</CardTitle>
+                <CardTitle>
+                  {role === "assistant" ? coachName : "Vous"}
+                </CardTitle>
                 <CardDescription>
                   {content.split("\n").map((line) => (
                     <>
@@ -142,11 +157,7 @@ export default function Coach({
             e.preventDefault();
             setPrompt(e.target.value);
           }}
-          placeholder={
-            isReady && agentUrl
-              ? "Ecrivez votre message"
-              : "Nous attendons votre coach"
-          }
+          placeholder="Ecrivez votre message"
         ></Input>
         <Button
           className="a"
