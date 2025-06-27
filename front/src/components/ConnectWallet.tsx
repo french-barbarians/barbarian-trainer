@@ -47,7 +47,7 @@ export default function ConnectWallet() {
       {/* Title */}
       <div className="text-center mb-8">
         <h1 className="text-white text-2xl font-bold mb-4">
-          Let's get you started
+          Connect Your Wallet !
         </h1>
       </div>
 

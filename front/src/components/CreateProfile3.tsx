@@ -1,16 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 export default function CreateProfile3() {
   const router = useRouter();
-  const [selectedOption, setSelectedOption] = useState<string>("");
 
   const handleOptionSelect = (option: string) => {
-    setSelectedOption(option);
+    // setSelectedOption(option);
     // Handle different connection types
     switch(option) {
       case 'strava':

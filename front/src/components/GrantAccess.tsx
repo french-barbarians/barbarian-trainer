@@ -19,9 +19,6 @@ export default function GrantAccess({
 }: GrantAccessProps) {
   const [isGranting, setIsGranting] = useState(false);
   const [grantStatus, setGrantStatus] = useState<string>("");
-  const [grantedAccess, setGrantedAccess] = useState<GrantedAccess | null>(
-    null
-  );
 
   // Always grant access to all users (zero address)
   const authorizedUser = "0x0000000000000000000000000000000000000000";
@@ -49,7 +46,6 @@ export default function GrantAccess({
       });
 
       console.log("Access granted successfully:", result);
-      setGrantedAccess(result);
       onAccessGranted(result);
       setGrantStatus("🎉 Your coach is now connected and ready to help!");
     } catch (error) {

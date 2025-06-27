@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { IExecDataProtectorCore } from "@iexec/dataprotector";
+import { GrantedAccess, IExecDataProtectorCore } from "@iexec/dataprotector";
 import { protectDualGPXFiles, DualGPXProtectionResult } from "@/lib/gpxProtection";
 import GrantAccess from "./GrantAccess";
 
@@ -22,7 +22,7 @@ export default function CreateProfile4({ dataProtectorCore = null }: CreateProfi
   const [gpx2File, setGpx2File] = useState<File | null>(null);
   const [dragOver, setDragOver] = useState<'gpx1' | 'gpx2' | null>(null);
   const [protectedData, setProtectedData] = useState<DualGPXProtectionResult | null>(null);
-  const [grantedAccess, setGrantedAccess] = useState<any>(null);
+  const [grantedAccess, setGrantedAccess] = useState<GrantedAccess | null>(null);
   const [isProtecting, setIsProtecting] = useState(false);
   const [isProcessingComplete, setIsProcessingComplete] = useState(false);
 
@@ -91,7 +91,7 @@ export default function CreateProfile4({ dataProtectorCore = null }: CreateProfi
     }
   };
 
-  const handleAccessGranted = (access: any) => {
+  const handleAccessGranted = (access: GrantedAccess | null) => {
     setGrantedAccess(access);
     setIsProcessingComplete(true);
   };
