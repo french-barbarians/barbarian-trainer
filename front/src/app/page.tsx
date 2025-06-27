@@ -17,7 +17,7 @@ import { DualGPXProtectionResult } from "@/lib/gpxProtection";
 import Coach from "@/components/Coach";
 
 export default function Home() {
-  const APP = "0xa4eff0Fe2890ac52D64c4156f7F9576E59201200"; // latest app version
+  const APP = "0x85305b1498E9268aFE2EB4f63ee767125c558074"; // latest app version
 
   const { open } = useAppKit();
   const { disconnectAsync } = useDisconnect();

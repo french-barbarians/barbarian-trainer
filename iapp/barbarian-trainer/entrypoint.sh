@@ -10,7 +10,7 @@ node /app/src/app.js $1 &
 IAPP_PID=$!
 
 # session time
-sleep 10m
+sleep 5m
 
 kill $IAPP_PID 2>/dev/null
 
