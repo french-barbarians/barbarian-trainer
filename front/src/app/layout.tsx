@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "My Personal Coach",
+  title: "My Private Coach",
   description: "Private personal TEE AI coach powered by iExec",
 };
 

@@ -70,7 +70,7 @@ export default function Home() {
           <div className="ml-3 font-mono leading-5 font-bold">
             <Image
               src="/logo-onboarding.png"
-              alt="My Personal Coach"
+              alt="My Private Coach"
               width={120}
               height={40}
             />
