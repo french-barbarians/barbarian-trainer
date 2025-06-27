@@ -15,6 +15,7 @@ import ProtectedDataDisplay from "@/components/ProtectedDataDisplay";
 import GrantAccess from "@/components/GrantAccess";
 import { DualGPXProtectionResult } from "@/lib/gpxProtection";
 import Coach from "@/components/Coach";
+import Image from "next/image";
 
 export default function Home() {
   const APP = "0x85305b1498E9268aFE2EB4f63ee767125c558074"; // latest app version
@@ -64,10 +65,15 @@ export default function Home() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <nav className="bg-neutral-100">
+      <nav className="bg-neutral-900">
         <div className="max-w-6xl mx-auto flex justify-between items-center p-2">
           <div className="ml-3 font-mono leading-5 font-bold">
-            Barbarian Trainer - GPX Protection
+            <Image
+              src="/logo-onboarding.png"
+              alt="My Personal Coach"
+              width={120}
+              height={40}
+            />
           </div>
           <div className="flex items-center space-x-4">
             <Link href="/onboarding">
