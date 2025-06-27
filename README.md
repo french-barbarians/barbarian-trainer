@@ -6,6 +6,8 @@
 
 MyPrivateCoach is a revolutionary AI-powered running coach that leverages **iExec's decentralized confidential computing platform** to provide personalized training advice while ensuring your GPS workout data and chat remains completely private and secure.
 
+Video : https://drive.google.com/file/d/1XDGztj-W9z9-my-DaT03Fx9owZNJkpfq/view
+
 ### Key Features
 
 - 🔒 **Complete Data Privacy**: Your GPX files are encrypted and processed in secure enclaves
