@@ -1,12 +1,10 @@
-# 🏃‍♂️ MyPrivatCoach
+# 🏃‍♂️ MyPrivateCoach
 
 > **Your AI Running Coach with Confidential Data Protection**
 
-MyPrivatCoach is a revolutionary AI-powered running coach that leverages **iExec's decentralized confidential computing platform** to provide personalized training advice while ensuring your GPS workout data remains completely private and secure.
+## 🎯 What is MyPrivateCoach?
 
-## 🎯 What is MyPrivatCoach?
-
-MyPrivatCoach combines the power of AI coaching with blockchain-based data protection. Upload your GPX workout files, and our AI coach (powered by a custom fine-tuned model) analyzes your training data in a secure, trusted execution environment to provide personalized training plans and advice.
+MyPrivateCoach is a revolutionary AI-powered running coach that leverages **iExec's decentralized confidential computing platform** to provide personalized training advice while ensuring your GPS workout data and conversation remains completely private and secure.
 
 ### Key Features
 
@@ -49,7 +47,7 @@ The application consists of three main components:
 4. Protected data is stored on the blockchain
 
 ### 2. AI Processing
-1. Grant access to the MyPrivatCoach iApp
+1. Grant access to the MyPrivateCoach iApp
 2. Your encrypted data is processed in a secure TEE
 3. AI model analyzes your training patterns
 4. Personalized coaching advice is generated
