@@ -47,11 +47,8 @@ export default function ConnectWallet() {
       {/* Title */}
       <div className="text-center mb-8">
         <h1 className="text-white text-2xl font-bold mb-4">
-          Connect Your Wallet
+          Let's get you started
         </h1>
-        <p className="text-white/70 text-base">
-          Connect your wallet to get started with Barbarian Trainer
-        </p>
       </div>
 
       {/* Wallet Connection */}

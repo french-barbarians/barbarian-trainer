@@ -291,13 +291,13 @@ export default function CreateProfile4({ dataProtectorCore = null }: CreateProfi
         {/* Step Indicator */}
         <div className="flex items-center justify-center mb-8">
           <div className="flex items-center space-x-4">
-            <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-[#0F0641] rounded-full flex items-center justify-center">
               <span className="text-white font-semibold text-sm">✓</span>
             </div>
-            <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-[#0F0641] rounded-full flex items-center justify-center">
               <span className="text-white font-semibold text-sm">✓</span>
             </div>
-            <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-[#0F0641] rounded-full flex items-center justify-center">
               <span className="text-white font-semibold text-sm">✓</span>
             </div>
             <div className="w-8 h-8 bg-[#E0F466] rounded-full flex items-center justify-center">
