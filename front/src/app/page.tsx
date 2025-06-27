@@ -141,6 +141,7 @@ export default function Home() {
                 dataProtectorCore={dataProtectorCore}
                 authorizedApp={APP}
                 protectedData={grantedAccess?.dataset}
+                coachName="Teddy 🥋"
               ></Coach>
             )}
           </div>
